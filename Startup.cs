@@ -23,8 +23,6 @@ namespace WebApp_FizzBuzz
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-
             // Zadanie 3:
             services.AddMemoryCache();
             //services.AddDistributedMemoryCache();
@@ -35,6 +33,8 @@ namespace WebApp_FizzBuzz
             //    options.Cookie.HttpOnly = true;
             //    options.Cookie.IsEssential = true;
             //});
+
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,13 +58,14 @@ namespace WebApp_FizzBuzz
 
             app.UseAuthorization();
 
+            // Zadanie 3:
+            app.UseSession();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
             });
-
-            // Zadanie 3:
-            app.UseSession();
         }
     }
 }

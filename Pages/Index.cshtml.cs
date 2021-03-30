@@ -15,10 +15,13 @@ namespace WebApp_FizzBuzz.Pages
 {
     public class IndexModel : PageModel
     {
+        [BindProperty]
         [Display(Name = "FizzBuzz")]
+        [Required(ErrorMessage = "Value has to be in range from 1 to 1000!")]
         [Range(1, 1000, ErrorMessage= "Value has to be in range from 1 to 1000!")]
         public int? input { get; set; }
 
+        public string text { get; private set; }
 
         private readonly ILogger<IndexModel> _logger;
 
@@ -31,10 +34,10 @@ namespace WebApp_FizzBuzz.Pages
         {
             try
             {
-                input = HttpContext.Session.GetInt32("input");
+                input = HttpContext.Session.GetInt32("inpu");
             }
-            catch(Exception e)
-            { 
+            catch (Exception e)
+            {
                 // Ignore
             }
         }
@@ -45,7 +48,8 @@ namespace WebApp_FizzBuzz.Pages
                 return Page();
             //ModelState.TryGetValue("input", out input);
             HttpContext.Session.SetInt32("input", input.Value);
-            return RedirectToPage("./OstatnioWyszukiwane");
+            //return RedirectToPage("./OstatnioWyszukiwane");
+            return Page();
 
             if (ModelState.IsValid)
             {

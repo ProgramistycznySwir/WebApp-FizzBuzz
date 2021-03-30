@@ -6,7 +6,7 @@
 
 <div class="text-center">
     <h1 class="display-4">
-        Welcome
+        Welcome to FizzBuzz on DOTnet!
     </h1>
     <form method="post">
         <div class="row">
@@ -14,15 +14,24 @@
                 <label asp-for="input"></label><br />
                 <input asp-for="input" /><br />
                 <span asp-validation-for="input" class="text-danger"></span><br />
+                <br />
+                @{
+                    if(!string.IsNullOrWhiteSpace(Model.text))
+                    {
+                        <span>@Model.text</span>
+                    }
+                }
+                <br />
+                @if (Model.input.HasValue)
+                    FizzBuzz.Parse(Model.input.Value);
             </div>
-
         </div>
         <br />
-        <button type="submit">Confirm</button>
+        @*<button type="submit">Confirm</button>*@
     </form>
+    @*<br />
     <br />
     <br />
     <br />
-    <br />
-    <p>@Model.input</p>
+    <p>@Model.input</p>*@
 </div>
