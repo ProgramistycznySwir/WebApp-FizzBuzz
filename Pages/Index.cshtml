@@ -16,14 +16,11 @@
                 <span asp-validation-for="input" class="text-danger"></span><br />
                 <br />
                 @{
-                    if(!string.IsNullOrWhiteSpace(Model.text))
+                    if(Model.lastEntry.HasValue)
                     {
-                        <span>@Model.text</span>
+                        <span>@Model.lastEntry.Value.result</span>
                     }
                 }
-                <br />
-                @if (Model.input.HasValue)
-                    FizzBuzz.Parse(Model.input.Value);
             </div>
         </div>
         <br />
