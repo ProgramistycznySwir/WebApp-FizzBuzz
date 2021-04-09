@@ -23,7 +23,7 @@ namespace WebApp_FizzBuzz.Pages
                 return;
             }
             entriesList_string = string.Join("\n",
-                JsonConvert.DeserializeObject<List<FizzBuzzEntry?>>(
+                JsonConvert.DeserializeObject<List<FizzBuzzEntry>>(
                     list_serialized_
                     )
                 );

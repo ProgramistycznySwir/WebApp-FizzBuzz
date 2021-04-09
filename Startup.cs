@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.EntityFrameworkCore;
+using WebApp_FizzBuzz.Data;
+
 namespace WebApp_FizzBuzz
 {
     public class Startup
@@ -33,6 +36,11 @@ namespace WebApp_FizzBuzz
             //    options.Cookie.HttpOnly = true;
             //    options.Cookie.IsEssential = true;
             //});
+
+            // Zadanie 4:
+            services.AddDbContext<FizzBuzzContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("FizzBuzzDB"));
+            });
 
             services.AddRazorPages();
         }

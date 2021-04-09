@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApp_FizzBuzz.Models
 {
     /// Oczywiście przechowywanie rezultatu w tym miejscu jest tragicznym pomysłem z racji, że da się go uzyskać z 
     ///  zmiennej entry, jednak ma to służyć tylko jako ćwiczenie serializacji danych więc, who cares :/
-    public struct FizzBuzzEntry
+    /// Kluczem głównym tabeli jest date, typ 7 bajtowy, oraz nie koniecznie zapewniający unikatowość rekordów,
+    ///  ale kogoto obchodzi :)
+    public class FizzBuzzEntry
     {
+        [Required]
         public int entry { get; set; }
+        [Required]
+        [MaxLength(64)]
         public string result { get; set; }
+        /// <summary>
+        /// DB main key.
+        /// </summary>
+        [Key]
         public DateTime date { get; set; }
 
         public FizzBuzzEntry(int entry)
