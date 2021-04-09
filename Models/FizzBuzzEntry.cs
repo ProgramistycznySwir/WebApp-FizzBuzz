@@ -16,23 +16,27 @@ namespace WebApp_FizzBuzz.Models
         public FizzBuzzEntry(int entry)
         {
             this.entry = entry;
-            date = DateTime.Now;
+            this.date = DateTime.Now;
+            this.result = ParseFizzBuzz(entry);
 
-            // FizzBuzz Parsing:
+            // Powyższy kod jest zbyt długi :P
+            //return ((input % 3 == 0 ? "Fizz" : "") + (input % 5 == 0 ? "Buzz" : "")) is string ii ? (ii != "" ? ii : input.ToString()) : "";
+            // Niestety musiałem przerobić kod, ale dalej jestem dumny z tego potworka :3
+        }
+
+        static string ParseFizzBuzz(int entry)
+        {
             string result = "";
 
             result += (entry % 3 == 0) ? "Fizz" : "";
             result += (entry % 5 == 0) ? "Buzz" : "";
 
             if (result != "")
-                this.result = $"Otrzymano: {result}";
+                return $"Otrzymano: {result}";
             else
-                this.result = $"Liczba: {entry} nie spełnia kryteriów Fizz/Buzz";
-
-            // Powyższy kod jest zbyt długi :P
-            //return ((input % 3 == 0 ? "Fizz" : "") + (input % 5 == 0 ? "Buzz" : "")) is string ii ? (ii != "" ? ii : input.ToString()) : "";
-            // Niestety musiałem przerobić kod, ale dalej jestem dumny z tego potworka :3
+                return $"Liczba: {entry} nie spełnia kryteriów Fizz/Buzz";
         }
+
 
         public override string ToString()
         {
