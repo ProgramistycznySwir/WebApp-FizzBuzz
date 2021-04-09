@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
 using WebApp_FizzBuzz.Models;
+using WebApp_FizzBuzz.Data;
 
 namespace WebApp_FizzBuzz.Pages
 {
@@ -26,10 +27,12 @@ namespace WebApp_FizzBuzz.Pages
         public FizzBuzzEntry lastEntry { get; private set; }
 
         private readonly ILogger<IndexModel> _logger;
+        readonly FizzBuzzContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, FizzBuzzContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public void OnGet()
@@ -56,20 +59,31 @@ namespace WebApp_FizzBuzz.Pages
             // Saving to list in this Session.
             if(!(lastEntry is null))
             {
-                string list_serialized_ = HttpContext.Session.GetString("entriesList");
-                if (list_serialized_ is null)
-                    list_serialized_ = JsonConvert.SerializeObject(new List<FizzBuzzEntry>());
-
-                var list_ = JsonConvert.DeserializeObject<List<FizzBuzzEntry>>(
-                    list_serialized_
-                    );
-                list_.Add(lastEntry);
-                HttpContext.Session.SetString("entriesList", 
-                    JsonConvert.SerializeObject(list_)
-                    );
+                SaveEntryToSession(lastEntry);
+                SaveEntryToDataBase(lastEntry);
             }
 
             return Page();
+        }
+
+        void SaveEntryToSession(FizzBuzzEntry entry)
+        {
+            string list_serialized_ = HttpContext.Session.GetString("entriesList");
+            if (list_serialized_ is null)
+                list_serialized_ = JsonConvert.SerializeObject(new List<FizzBuzzEntry>());
+
+            var list_ = JsonConvert.DeserializeObject<List<FizzBuzzEntry>>(
+                list_serialized_
+                );
+            list_.Add(entry);
+            HttpContext.Session.SetString("entriesList",
+                JsonConvert.SerializeObject(list_)
+                );
+        }
+        void SaveEntryToDataBase(FizzBuzzEntry entry)
+        {
+            _context.FizzBuzzEntries.Add(entry);
+            _context.SaveChanges();
         }
     }
 }

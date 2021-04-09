@@ -12,7 +12,7 @@ namespace WebApp_FizzBuzz.Pages
 {
     public class OstatnioWyszukiwaneModel : PageModel
     {
-        public string entriesList_string;
+        public string entriesList_string { get; set; }
 
         public void OnGet()
         {
