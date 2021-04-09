@@ -14,15 +14,15 @@ namespace WebApp_FizzBuzz.Models
     public class FizzBuzzEntry
     {
         [Required]
-        public int entry { get; set; }
+        public int entry { get; private set; }
         [Required]
         [MaxLength(64)]
-        public string result { get; set; }
+        public string result { get; private set; }
         /// <summary>
         /// DB main key.
         /// </summary>
         [Key]
-        public DateTime date { get; set; }
+        public DateTime date { get; private set; }
 
         public FizzBuzzEntry(int entry)
         {

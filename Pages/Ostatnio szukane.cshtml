@@ -3,7 +3,28 @@
 @{
 }
 
+@{
+    void ZACZNIJDZIAŁAĆTYSTARAKURWOOOO(string message)
+    {
+        Model.OnPostDeleteEntry(message);
+    }
+}
 <h1>Last @Ostatnio_szukaneModel.entriesListLenght entries:</h1>
-<pre>
-@Model.entriesList_string
-</pre>
+<div>
+    @{
+        if (Model.entriesList.Count is 0)
+        {
+            <span>No entries in database... YET!</span>
+        }
+        else
+        {
+            foreach (var entry in Model.entriesList)
+            {
+                @*<form asp-page-handler="deleteEntry" method="post">*@
+                <button class="btn btn-light btn-sm" value="gah" onclick="ZACZNIJDZIAŁAĆTYSTARAKURWOOOO()">delete</button>
+                @entry.ToString()<br />
+                @*</form>*@
+            }
+        }
+    }
+</div>

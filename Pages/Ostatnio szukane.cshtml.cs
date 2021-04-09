@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using Microsoft.Extensions.Logging;
 using WebApp_FizzBuzz.Data;
+using WebApp_FizzBuzz.Models;
 
 namespace WebApp_FizzBuzz.Pages
 {
     public class Ostatnio_szukaneModel : PageModel
     {
-        public string entriesList_string { get; set; }
+        public List<FizzBuzzEntry> entriesList { get; private set; }
 
-        readonly ILogger<Ostatnio_szukaneModel> _logger;
+        public readonly ILogger<Ostatnio_szukaneModel> _logger;
         readonly FizzBuzzContext _context;
 
         public const int entriesListLenght = 10;
@@ -28,16 +29,23 @@ namespace WebApp_FizzBuzz.Pages
 
         public void OnGet()
         {
-            var entriesList = _context.FizzBuzzEntries.OrderByDescending(a => a.date).Take(entriesListLenght).ToList();
-            if (entriesList.Count is 0)
-            {
-                entriesList_string = "No entries in database... YET!";
-                return;
-            }
+            entriesList = _context.FizzBuzzEntries.OrderByDescending(a => a.date).Take(entriesListLenght).ToList();
+        }
 
-            entriesList_string = string.Join("\n",
-                entriesList
-                );
+        public IActionResult OnPostDeleteEntry()
+        {
+            _logger.LogInformation($"It takes too loooong... now?");
+            return Page();
+            //string message = "Welcome";
+            //return new JsonResult { Data = message, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public IActionResult OnPostDeleteEntry(string value)
+        {
+            _logger.LogInformation($"It takes too loooong... {value}");
+            return Page();
+            //string message = "Welcome";
+            //return new JsonResult { Data = message, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }
