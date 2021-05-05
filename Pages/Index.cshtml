@@ -16,9 +16,9 @@
                 <spAN asp-validation-for="input" class="text-danger"></spAN><bR />
                 <br />
                 @{
-                    if(Model.lastEntry.HasValue)
+                    if(!(Model.lastEntry is null))
                     {
-                        <span>@Model.lastEntry.Value.result</span>
+                        <span>@Model.lastEntry.result</span>
                     }
                 }
             </div>

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
 using WebApp_FizzBuzz.Models;
+using WebApp_FizzBuzz.Data;
 
 namespace WebApp_FizzBuzz.Pages
 {
@@ -23,13 +24,15 @@ namespace WebApp_FizzBuzz.Pages
         [Range(1, 1000, ErrorMessage= "Value has to be in range from 1 to 1000!")]
         public int? input { get; set; }
 
-        public FizzBuzzEntry? lastEntry { get; private set; }
+        public FizzBuzzEntry lastEntry { get; private set; }
 
         private readonly ILogger<IndexModel> _logger;
+        readonly FizzBuzzContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, FizzBuzzContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public void OnGet()
@@ -38,7 +41,7 @@ namespace WebApp_FizzBuzz.Pages
             try
             {
                 //input = HttpContext.Session.GetInt32("input");
-                lastEntry = JsonConvert.DeserializeObject<FizzBuzzEntry?>(HttpContext.Session.GetString("lastEntry"));
+                lastEntry = JsonConvert.DeserializeObject<FizzBuzzEntry>(HttpContext.Session.GetString("lastEntry"));
             }
             catch (Exception e)
             {
@@ -54,22 +57,33 @@ namespace WebApp_FizzBuzz.Pages
             HttpContext.Session.SetString("lastEntry", JsonConvert.SerializeObject(lastEntry));
 
             // Saving to list in this Session.
-            if(lastEntry.HasValue)
+            if(!(lastEntry is null))
             {
-                string list_serialized_ = HttpContext.Session.GetString("entriesList");
-                if (list_serialized_ is null)
-                    list_serialized_ = JsonConvert.SerializeObject(new List<FizzBuzzEntry?>());
-
-                var list_ = JsonConvert.DeserializeObject<List<FizzBuzzEntry?>>(
-                    list_serialized_
-                    );
-                list_.Add(lastEntry.Value);
-                HttpContext.Session.SetString("entriesList", 
-                    JsonConvert.SerializeObject(list_)
-                    );
+                SaveEntryToSession(lastEntry);
+                SaveEntryToDatabase(lastEntry);
             }
 
             return Page();
+        }
+
+        void SaveEntryToSession(FizzBuzzEntry entry)
+        {
+            string list_serialized_ = HttpContext.Session.GetString("entriesList");
+            if (list_serialized_ is null)
+                list_serialized_ = JsonConvert.SerializeObject(new List<FizzBuzzEntry>());
+
+            var list_ = JsonConvert.DeserializeObject<List<FizzBuzzEntry>>(
+                list_serialized_
+                );
+            list_.Add(entry);
+            HttpContext.Session.SetString("entriesList",
+                JsonConvert.SerializeObject(list_)
+                );
+        }
+        void SaveEntryToDatabase(FizzBuzzEntry entry)
+        {
+            _context.FizzBuzzEntries.Add(entry);
+            _context.SaveChanges();
         }
     }
 }

@@ -3,36 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApp_FizzBuzz.Models
 {
     /// Oczywiście przechowywanie rezultatu w tym miejscu jest tragicznym pomysłem z racji, że da się go uzyskać z 
     ///  zmiennej entry, jednak ma to służyć tylko jako ćwiczenie serializacji danych więc, who cares :/
-    public struct FizzBuzzEntry
+    /// Kluczem głównym tabeli jest date, typ 7 bajtowy, oraz nie koniecznie zapewniający unikatowość rekordów,
+    ///  ale kogoto obchodzi :)
+    public class FizzBuzzEntry
     {
-        public int entry { get; set; }
-        public string result { get; set; }
-        public DateTime date { get; set; }
+        [Required]
+        public int entry { get; private set; }
+        [Required]
+        [MaxLength(64)]
+        public string result { get; private set; }
+        /// <summary>
+        /// DB main key.
+        /// </summary>
+        [Key]
+        public DateTime date { get; private set; }
 
         public FizzBuzzEntry(int entry)
         {
             this.entry = entry;
-            date = DateTime.Now;
+            this.date = DateTime.Now;
+            this.result = ParseFizzBuzz(entry);
 
-            // FizzBuzz Parsing:
+            // Powyższy kod jest zbyt długi :P
+            //return ((input % 3 == 0 ? "Fizz" : "") + (input % 5 == 0 ? "Buzz" : "")) is string ii ? (ii != "" ? ii : input.ToString()) : "";
+            // Niestety musiałem przerobić kod, ale dalej jestem dumny z tego potworka :3
+        }
+
+        static string ParseFizzBuzz(int entry)
+        {
             string result = "";
 
             result += (entry % 3 == 0) ? "Fizz" : "";
             result += (entry % 5 == 0) ? "Buzz" : "";
 
             if (result != "")
-                this.result = $"Otrzymano: {result}";
+                return $"Otrzymano: {result}";
             else
-                this.result = $"Liczba: {entry} nie spełnia kryteriów Fizz/Buzz";
-
-            // Powyższy kod jest zbyt długi :P
-            //return ((input % 3 == 0 ? "Fizz" : "") + (input % 5 == 0 ? "Buzz" : "")) is string ii ? (ii != "" ? ii : input.ToString()) : "";
-            // Niestety musiałem przerobić kod, ale dalej jestem dumny z tego potworka :3
+                return $"Liczba: {entry} nie spełnia kryteriów Fizz/Buzz";
         }
+
 
         public override string ToString()
         {

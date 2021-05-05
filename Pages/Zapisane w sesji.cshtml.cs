@@ -12,7 +12,7 @@ namespace WebApp_FizzBuzz.Pages
 {
     public class OstatnioWyszukiwaneModel : PageModel
     {
-        public string entriesList_string;
+        public string entriesList_string { get; set; }
 
         public void OnGet()
         {
@@ -23,7 +23,7 @@ namespace WebApp_FizzBuzz.Pages
                 return;
             }
             entriesList_string = string.Join("\n",
-                JsonConvert.DeserializeObject<List<FizzBuzzEntry?>>(
+                JsonConvert.DeserializeObject<List<FizzBuzzEntry>>(
                     list_serialized_
                     )
                 );
