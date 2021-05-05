@@ -29,23 +29,23 @@ namespace WebApp_FizzBuzz.Pages
 
         public void OnGet()
         {
-            entriesList = _context.FizzBuzzEntries.OrderByDescending(a => a.date).Take(entriesListLenght).ToList();
-        }
-
-        public IActionResult OnPostDeleteEntry()
-        {
-            _logger.LogInformation($"It takes too loooong... now?");
-            return Page();
-            //string message = "Welcome";
-            //return new JsonResult { Data = message, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            entriesList = _context.FizzBuzzEntries
+                .OrderByDescending(a => a.date)
+                .Take(entriesListLenght).ToList()
+                ?? new List<FizzBuzzEntry>();
         }
 
         public IActionResult OnPostDeleteEntry(string value)
         {
-            _logger.LogInformation($"It takes too loooong... {value}");
-            return Page();
-            //string message = "Welcome";
-            //return new JsonResult { Data = message, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            long ticks = Convert.ToInt64(value);
+
+            _context.FizzBuzzEntries.Remove(
+                _context.FizzBuzzEntries.AsEnumerable().First(
+                    entry => entry.date.Ticks == ticks));
+            
+            _context.SaveChanges();
+
+            return RedirectToPage("/Ostatnio Szukane");
         }
     }
 }

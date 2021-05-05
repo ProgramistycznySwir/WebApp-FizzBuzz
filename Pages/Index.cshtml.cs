@@ -60,7 +60,7 @@ namespace WebApp_FizzBuzz.Pages
             if(!(lastEntry is null))
             {
                 SaveEntryToSession(lastEntry);
-                SaveEntryToDataBase(lastEntry);
+                SaveEntryToDatabase(lastEntry);
             }
 
             return Page();
@@ -80,7 +80,7 @@ namespace WebApp_FizzBuzz.Pages
                 JsonConvert.SerializeObject(list_)
                 );
         }
-        void SaveEntryToDataBase(FizzBuzzEntry entry)
+        void SaveEntryToDatabase(FizzBuzzEntry entry)
         {
             _context.FizzBuzzEntries.Add(entry);
             _context.SaveChanges();

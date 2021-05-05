@@ -4,6 +4,7 @@
 }
 
 @{
+    ///TODO Delete this.
     void ZACZNIJDZIAŁAĆTYSTARAKURtyzano(string message)
     {
         Model.OnPostDeleteEntry(message);
@@ -20,10 +21,13 @@
         {
             foreach (var entry in Model.entriesList)
             {
-                @*<form asp-page-handler="deleteEntry" method="post">*@
-                <button class="btn btn-light btn-sm" value="gah" onclick="ZACZNIJDZIAŁAĆTYSTARAKURtyzano()">delete</button>
+            <form asp-page-handler="deleteEntry" method="post">
+                <button class="btn btn-light btn-sm" name="value" value=@entry.date.Ticks.ToString()>delete</button>
+                @*<button class="btn btn-light btn-sm" value="gah">delete</button>*@
+                @*<input type="submit" name=@entry.date.Ticks.ToString() value="delete" />*@
                 @entry.ToString()<br />
-                @*</form>*@
+                @*@Html.*@
+            </form>
             }
         }
     }
