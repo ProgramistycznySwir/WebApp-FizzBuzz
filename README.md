@@ -2,6 +2,8 @@
 
 FizzBuzz web app using Razor pages
 
+Propos tego repozytorium to są tutaj zaimplementowane entity framework, obsługa sesji i ogółem to co było wymagane przez kilka zajęć
+
 ### Exercise __4__ progress:
 - [x] każde zwalidowane wyszukanie (liczba, czas oraz wynik) zostało zapisane w bazie danych (0.5pkt)
 - [x] na stronie “Ostatnio szukane” była dostępna lista 10 ostatnich wyszukiwań posortowanych malejąco według czasu (0.5pkt)
